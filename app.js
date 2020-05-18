@@ -16,7 +16,7 @@ app.use(cors({ origin: "http://localhost:4000" }));   //will need to update for 
 
 app.use('/users', usersRouter);
 app.use('/stocks', stockRouter);
-app.use('/transactions')
+app.use('/transactions', transactionRouter);
 
 
 

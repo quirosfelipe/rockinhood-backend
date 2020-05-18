@@ -18,12 +18,15 @@
     "express-validator": "^6.5.0",
     "morgan": "^1.10.0",
     "per-env": "^1.0.2",
+    "pg": "^8.2.1",
     "pug": "^2.0.4",
+    "sequelize": "^5.21.9",
     "unirest": "^0.6.0"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.1.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^5.5.1"
   }
 }

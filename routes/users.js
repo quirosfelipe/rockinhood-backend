@@ -6,12 +6,12 @@ const { asyncHandler, handleValidationErrors } = require("../utils");
 
 const router = express.Router();
 
-routes.post("/");
+router.post("/");
 
-routes.get("/:id");
+router.get("/:id");
 
-routes.put("/:id");
+router.put("/:id");
 
-routes.delete('/:id');
+router.delete('/:id');
 
 module.exports = router;
