@@ -30,15 +30,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     marketCap: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false
     },
     priceEarningRatio: {
-      type: DataTypes.NUMERIC(2),
+      type: DataTypes.FLOAT(6,2),
       allowNull: false
     },
     dividendYield: {
-      type: DataTypes.NUMERIC(2),
+      type: DataTypes.FLOAT(6,2),
       allowNull: false
     },
     averageVolume: {

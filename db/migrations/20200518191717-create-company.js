@@ -37,15 +37,15 @@ module.exports = {
         allowNull: false
       },
       marketCap: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         allowNull: false
       },
       priceEarningRatio: {
-        type: Sequelize.NUMERIC(2),
+        type: Sequelize.FLOAT(6,2),
         allowNull: false
       },
       dividendYield: {
-        type: Sequelize.NUMERIC(2),
+        type: Sequelize.FLOAT(6,2),
         allowNull: false
       },
       averageVolume: {
