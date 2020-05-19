@@ -14,9 +14,9 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:4000" }));   //will need to update for front end URL
 
-app.use('/users', usersRouter);
-app.use('/stocks', stockRouter);
-app.use('/transactions', transactionRouter);
+app.use("/users", usersRouter);
+app.use("/stocks", stockRouter);
+app.use("/transactions", transactionRouter);
 
 
 
