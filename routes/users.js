@@ -26,7 +26,7 @@ const validateEmailAndPassword = [
         .withMessage('Password must not be more than 50 characters long'),
     handleValidationErrors,
 ];
-
+//CREATE BEW USER ROUTE
 router.post(
     "/", 
     validateName,
@@ -43,6 +43,7 @@ router.post(
         });
 }));
 
+//USER LOGIN ROUTE
 router.post(
     "/token",
     validateEmailAndPassword,
@@ -65,6 +66,31 @@ router.post(
     res.json({ token, user: { id: user.id } });
     })
 );  
+
+//GUEST USER LOGIN ROUTE
+router.post(
+    "/guest",
+    asyncHandler(async (req, res, next) => {
+        const email = "guest@guest.com";
+        const user = await User.findOne({
+            where: {
+                email,
+            },
+        });
+
+        if (!user || !user.validatePassword(password)) {
+            const err = new Error("Login failed");
+            err.status = 401;
+            err.title = "Login failed";
+            err.errors = ["The provided credentials were invalid."];
+            return next(err);
+        }
+        const token = getUserToken(user);
+        res.json({ token, user: { id: user.fullName } });
+    })
+);  
+
+
 
 //  update user info route router.put("/:id");
 

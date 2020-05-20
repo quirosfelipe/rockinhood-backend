@@ -48,9 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Company.associate = function(models) {
     Company.belongsTo(models.Transaction, {
+      as: "transactions",
       foreignKey: "companyId",
     });
     Company.belongsTo(models.Watchlist, {
+      as: "watchlists",
       foreignKey: "companyId",
     });
   };

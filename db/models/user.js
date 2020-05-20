@@ -21,9 +21,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   User.associate = function(models) {
     User.hasMany(models.Transaction, {
+      as: "transactions",
       foreignKey: "userId",
     });
     User.hasOne(models.Watchlist, {
+      as: "watchlists",
       foreignKey: "userId",
     });
   };
