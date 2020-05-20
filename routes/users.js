@@ -23,9 +23,7 @@ const validateEmailAndPassword = [
         .exists({ checkFalsy: true })
         .withMessage("Please provide a password.")
         .isLength({ max: 50 })
-        .withMessage('Password must not be more than 50 characters long')
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
-        .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
+        .withMessage('Password must not be more than 50 characters long'),
     handleValidationErrors,
 ];
 
@@ -68,8 +66,8 @@ router.post(
     })
 );  
 
-router.put("/:id");
+//  update user info route router.put("/:id");
 
-router.delete('/:id');
+//  delete user route router.delete('/:id');
 
 module.exports = router;

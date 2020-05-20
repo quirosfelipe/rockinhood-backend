@@ -1,9 +1,10 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: async (queryInterface, Sequelize) => {
 
-      return queryInterface.bulkInsert('Companies', [
+      const companies = await queryInterface.bulkInsert('Companies', [
         { name: "Apple",
           symbol: "AAPL", 
           description: "Apple, Inc. engages in the design, manufacture, and sale of smartphones, personal computers, tablets, wearables and accessories, and other variety of related services. It operates through the following geographical segments: Americas, Europe, Greater China, Japan, and Rest of Asia Pacific. The Americas segment includes North and South America. The Europe segment consists of European countries, as well as India, the Middle East, and Africa. The Greater China segment comprises of China, Hong Kong, and Taiwan. The Rest of Asia Pacific segment includes Australia and Asian countries. Its products and services include iPhone, Mac, iPad, AirPods, Apple TV, Apple Watch, Beats products, Apple Care, iCloud, digital content stores, streaming, and licensing services. The company was founded by Steven Paul Jobs, Ronald Gerald Wayne, and Stephen G. Wozniak on April 1, 1976 and is headquartered in Cupertino, CA.", 
@@ -354,10 +355,21 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         }
+      ], { returning: true } );
+
+    return queryInterface.bulkInsert( "Users", [
+      { fullName: "guest",
+        email: "guest@guest.com",
+        hashedPassword: bcrypt.hashSync("guest", 10),
+        cashBalance: 1000,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
       ], {});
   },
 
-  down: (queryInterface, Sequelize) => {
-      return queryInterface.bulkDelete('Companies', null, {});
+  down: async (queryInterface, Sequelize) => {
+      await queryInterface.bulkDelete('Companies', null, {});
+      return queryInterface.bulkDelete('Users', null, {});
   }
 };
