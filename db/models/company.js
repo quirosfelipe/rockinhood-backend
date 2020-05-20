@@ -34,11 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     priceEarningRatio: {
-      type: DataTypes.FLOAT(6,2),
+      type: DataTypes.NUMERIC(6,2),
       allowNull: false
     },
     dividendYield: {
-      type: DataTypes.FLOAT(6,2),
+      type: DataTypes.NUMERIC(6,2),
       allowNull: false
     },
     averageVolume: {

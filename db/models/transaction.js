@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
        allowNull: false
     },
     price: {
-      type: DataTypes.NUMERIC(2),
+      type: DataTypes.NUMERIC(10,2),
       allowNull: false
     },
     buySell: {

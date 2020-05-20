@@ -8,8 +8,8 @@ module.exports = {
         host: process.env.DB_HOST,
     },
     apiKey: process.env.YAHOO_APIKEY,
-    // jwtConfig: {
-    //     secret: process.env.JWT_SECRET,
-    //     expiresIn: process.env.JWT_EXPIRES_IN,
-    // },
+    jwtConfig: {
+        secret: process.env.JWT_SECRET,
+        expiresIn: process.env.JWT_EXPIRES_IN,
+    },
 };

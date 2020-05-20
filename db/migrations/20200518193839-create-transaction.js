@@ -27,7 +27,7 @@ module.exports = {
         allowNull: false
       },
       price: {
-        type: Sequelize.NUMERIC(2),
+        type: Sequelize.NUMERIC(10,2),
         allowNull: false
       },
       buySell: {

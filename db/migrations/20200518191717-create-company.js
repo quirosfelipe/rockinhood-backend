@@ -41,11 +41,11 @@ module.exports = {
         allowNull: false
       },
       priceEarningRatio: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.NUMERIC(6, 2),
         allowNull: false
       },
       dividendYield: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.NUMERIC(6, 2),
         allowNull: false
       },
       averageVolume: {

@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     cashBalance: {
-      type: DataTypes.NUMERIC(2),
+      type: DataTypes.NUMERIC(12,2),
       allowNull: false
     }
   }, {});

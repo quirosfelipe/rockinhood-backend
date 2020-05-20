@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false
       },
       cashBalance: {
-        type: Sequelize.NUMERIC(2),
+        type: Sequelize.NUMERIC(12,2),
         allowNull: false
       },
       createdAt: {
