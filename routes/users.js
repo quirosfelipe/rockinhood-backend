@@ -11,7 +11,7 @@ const router = express.Router();
 const validateName = [
     check("fullName")
         .exists({ checkFalsy: true })
-        .withMessage("Please provide a username"),
+        .withMessage("Please provide your full name"),
     handleValidationErrors,
 ];
 const validateEmailAndPassword = [
@@ -21,7 +21,11 @@ const validateEmailAndPassword = [
         .withMessage("Please provide a valid email."),
     check("password")
         .exists({ checkFalsy: true })
-        .withMessage("Please provide a password."),
+        .withMessage("Please provide a password.")
+        .isLength({ max: 50 })
+        .withMessage('Password must not be more than 50 characters long')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/, 'g')
+        .withMessage('Password must contain at least 1 lowercase letter, uppercase letter, number, and special character (i.e. "!@#$%^&*")'),
     handleValidationErrors,
 ];
 
@@ -41,7 +45,28 @@ router.post(
         });
 }));
 
-router.get("/:id");
+router.post(
+    "/token",
+    validateEmailAndPassword,
+    asyncHandler(async (req, res, next) => {
+        const { email, password } = req.body;
+        const user = await User.findOne({
+            where: {
+                email,
+            },
+        });
+
+    if (!user || !user.validatePassword(password)) {
+        const err = new Error("Login failed");
+        err.status = 401;
+        err.title = "Login failed";
+        err.errors = ["The provided credentials were invalid."];
+        return next(err);
+    }
+    const token = getUserToken(user);
+    res.json({ token, user: { id: user.id } });
+    })
+);  
 
 router.put("/:id");
 
