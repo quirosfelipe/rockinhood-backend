@@ -16,11 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Transaction.associate = function(models) {
     Transaction.hasOne(models.User, {
-      as: "users",
+      as: "user",
       foreignKey: "userId",
     });
     Transaction.hasOne(models.Company, {
-      as: "companies",
+      as: "company",
       foreignKey: "companyId",
     });
   };

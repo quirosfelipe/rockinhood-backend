@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "userId",
     });
     User.hasOne(models.Watchlist, {
-      as: "watchlists",
+      as: "watchlist",
       foreignKey: "userId",
     });
   };
