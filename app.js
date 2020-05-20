@@ -7,20 +7,24 @@ const app = express();
 
 //ROUTES
 const usersRouter = require('./routes/users');
-const stockRouter = require('./routes/stocks');
-const transactionRouter = require('./routes/transactions');
+const stocksRouter = require('./routes/stocks');
+const transactionsRouter = require('./routes/transactions');
+const watchlistsRouter = require('./routes/watchlists')
 
+//USE UTILS
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:4000" }));   //will need to update for front end URL
+app.use(cors({ origin: "http://localhost:4000" }));  
 
-app.use("/users", usersRouter);
-app.use("/stocks", stockRouter);
-app.use("/transactions", transactionRouter);
-
+//USE ROUTES
+app.use('/users', usersRouter);
+app.use('/stocks', stocksRouter);
+app.use('/transactions', transactionsRouter);
+app.use('/watchlists', watchlistsRouter)
 
 
 //ERROR HANDLERS BELOW
+
 // ERROR HANDLERS - Catch unhandled requests and throw 404 error
 app.use((req, res, next) => {
     const err = new Error("The requested resource couldn't be found.");

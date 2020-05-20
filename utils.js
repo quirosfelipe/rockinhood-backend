@@ -19,7 +19,13 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
+const stockNotFoundError = (stockSymbol) => {
+    const err = Error("Scock not found");
+    err.errors = [`Stock with symbol of ${stockSymbol} could not be found.`];
+    err.title = "Stock not found.";
+    err.status = 404;
+    return err;
+};
 
 
-
-module.exports = { asyncHandler, handleValidationErrors };
+module.exports = { asyncHandler, handleValidationErrors, stockNotFoundError };

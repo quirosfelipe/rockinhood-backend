@@ -1,17 +1,12 @@
 //REQUIRED PACKAGES
 const express = require('express');
-const { asyncHandler } = require("../utils");
-const router = express.Router();
+const { asyncHandler, stockNotFoundError } = require("../utils");
 const { Company } = require("../db/models");
 const { stockHistoricalPrices } = require("./yahoo-api")
 
-const stockNotFoundError = (stockSymbol) => {
-    const err = Error("Scock not found");
-    err.errors = [`Stock with symbol of ${stockSymbol} could not be found.`];
-    err.title = "Stock not found.";
-    err.status = 404;
-    return err;
-};
+const router = express.Router();
+
+
 
 router.get(
     "/:id",
@@ -43,7 +38,26 @@ router.get(
         });    
 }));
 
+// ROUTE RETURNS "RECENT" STOCK PRICE (1b DAY OLD)
+router.get(
+    "/stockinfo/:id",
+    asyncHandler(async (req, res, next) => {
+        const ticker = req.params.id;
+        const company = await Company.findOne({ where: { symbol: ticker }});
 
+        if(!company){
+            next(stockNotFoundError(req.params.id));
+        } else {
+            await stockHistoricalPrices(ticker, 1, async (data) => {
+                if (data) {
+                    await res.json({ data });
+                } else {
+                    next(stockNotFoundError(req.params.id));
+                };
+            })
+        }     
+}));        
+    
 
 
 module.exports = router;

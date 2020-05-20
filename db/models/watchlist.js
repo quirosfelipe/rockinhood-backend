@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Watchlist.associate = function(models) {
     Watchlist.belongsTo(models.User, { foreignKey: "userId" });
-    Watchlist.hasMany(models.Company, { foreignKey: "companyId" });
+    Watchlist.belongsTo(models.Company, { foreignKey: "companyId" });
   };
   return Watchlist;
 };

@@ -10,6 +10,7 @@ const getUserToken = (user) => {
     const userDataForToken = {
         id: user.id,
         email: user.email,
+        cashBalance: user.cashBalance,
     };
     const token = jwt.sign(
         { data: userDataForToken },

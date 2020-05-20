@@ -1,4 +1,6 @@
 'use strict';
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     fullName: { 
@@ -20,14 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   User.associate = function(models) {
-    User.hasMany(models.Transaction, {
-      as: "transactions",
-      foreignKey: "userId",
-    });
-    User.hasOne(models.Watchlist, {
-      as: "watchlist",
-      foreignKey: "userId",
-    });
+    User.hasOne(models.Transaction, { foreignKey: "userId" });
+    User.hasOne(models.Watchlist, { foreignKey: "userId" });
   };
 
   User.prototype.validatePassword = function (password) {

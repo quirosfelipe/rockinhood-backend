@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Transaction.associate = function(models) {
     Transaction.belongsTo(models.User, { foreignKey: "userId" });
-    Transaction.hasMany(models.Company, { foreignKey: "companyId" });
+    Transaction.belongsTo(models.Company, { foreignKey: "companyId" });
   };
   return Transaction;
 };

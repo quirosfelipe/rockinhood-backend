@@ -50,10 +50,9 @@ router.post(
     asyncHandler(async (req, res, next) => {
         const { email, password } = req.body;
         const user = await User.findOne({
-            where: {
-                email,
-            },
+            where: { email },
         });
+        console.log(user)
 
     if (!user || !user.validatePassword(password)) {
         const err = new Error("Login failed");
@@ -63,7 +62,7 @@ router.post(
         return next(err);
     }
     const token = getUserToken(user);
-    res.json({ token, user: { id: user.id } });
+        res.json({ token, user: { id: user.fullName }, cash: { cashBalance: user.cashBalance } });
     })
 );  
 
@@ -72,10 +71,11 @@ router.post(
     "/guest",
     asyncHandler(async (req, res, next) => {
         const email = "guest@guest.com";
+        const password = "guest";
         const user = await User.findOne({
             where: { email } },
         );
-        
+
         console.log(user);
         if (!user || !user.validatePassword(password)) {
             const err = new Error("Login failed");
@@ -85,11 +85,9 @@ router.post(
             return next(err);
         }
         const token = getUserToken(user);
-        res.json({ token, user: { id: user.fullName } });
+        res.json({ token, user: { id: user.fullName }, cash: {cashBalance: user.cashBalance }  });
     })
 );  
-
-
 
 //  update user info route router.put("/:id");
 
