@@ -73,11 +73,10 @@ router.post(
     asyncHandler(async (req, res, next) => {
         const email = "guest@guest.com";
         const user = await User.findOne({
-            where: {
-                email,
-            },
-        });
-
+            where: { email } },
+        );
+        
+        console.log(user);
         if (!user || !user.validatePassword(password)) {
             const err = new Error("Login failed");
             err.status = 401;
