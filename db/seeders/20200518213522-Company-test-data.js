@@ -364,8 +364,29 @@ module.exports = {
         cashBalance: 1000,
         createdAt: new Date(),
         updatedAt: new Date(),
+      },
+      { fullName: "Brad Simpson",
+        email: "bradsimpson@icloud.com",
+        hashedPassword: bcrypt.hashSync("BradS", 10),
+        cashBalance: 1000000,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { fullName: "Felipe Quiros",
+        email: "audiozvook@gmail.com",
+        hashedPassword: bcrypt.hashSync("FelipeQ", 10),
+        cashBalance: 10000000,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { fullName: "Doug Ryu",
+        email: "douglasryu@hotmail.com",
+        hashedPassword: bcrypt.hashSync("DougR", 10),
+        cashBalance: 1000000,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
-      ], {});
+    ], {});
   },
 
   down: async (queryInterface, Sequelize) => {

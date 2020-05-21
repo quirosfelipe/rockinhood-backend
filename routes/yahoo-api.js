@@ -32,6 +32,38 @@ const stockHistoricalPrices = async(ticker, days, cb ) => {
     });
 }
 
-//stockHistoricalPrices("AAPL", 6);
-module.exports = { stockHistoricalPrices };
+const getNews = async (cb) => {
+    const req = unirest("GET", "https://apidojo-yahoo-finance-v1.p.rapidapi.com/news/get-details");
+    req.query({
+        "uuid": "375879c0-08f3-32fb-8aaf-523c93ff8792"
+    });
+    req.headers({
+        "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        "x-rapidapi-key": "c26becff69msh1653681ffa89790p14fa58jsn85f60361188a",
+        "useQueryString": true
+    });
+    req.end(function (res) {
+        if (res.error) throw new Error(res.error);
+        cb(res.body);
+    });
+};
 
+
+const getNewsList = async (cb) => {
+    const req = unirest("GET", "https://apidojo-yahoo-finance-v1.p.rapidapi.com/news/list");
+    req.query({
+        "category": "generalnews",
+        "region": "US"
+    });
+    req.headers({
+        "x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
+        "x-rapidapi-key": "c26becff69msh1653681ffa89790p14fa58jsn85f60361188a",
+        "useQueryString": true
+    });
+    req.end(function (res) {
+        if (res.error) throw new Error(res.error);
+        cb(res.body);
+    });
+};
+
+module.exports = { stockHistoricalPrices, getNews, getNewsList };

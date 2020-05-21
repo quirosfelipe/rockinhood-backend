@@ -2,62 +2,85 @@
 const express = require('express');
 const { asyncHandler, stockNotFoundError } = require("../utils");
 const { Company } = require("../db/models");
-const { stockHistoricalPrices } = require("./yahoo-api")
+const { stockHistoricalPrices, getNews, getNewsList } = require("./yahoo-api")
 
 const router = express.Router();
 
 
-
+// ROUTE RETURN COMPANY INFO
 router.get(
-    "/:id",
+    "/:stockSymbol",
     asyncHandler(async(req, res, next) => {
-        //console.log(req.params.id)
         const stock = await Company.findOne({
             where: {
-                symbol: req.params.id,
+                symbol: req.params.stockSymbol,
             },
         });
         if (stock) {
             res.json({ stock });    
         } else {
-            next(stockNotFoundError(req.params.id));
+            next(stockNotFoundError(req.params.stockSymbol));
         }    
 }));
 
 // ROUTE RETURNS HISTORICAL STOCK PRICES
 router.get(
-    "/chartinfo/:id",
+    "/chartinfo/:stockSymbol",
     asyncHandler(async(req, res, next) => {
-        const ticker = req.params.id;
+        const ticker = req.params.stockSymbol;
         await stockHistoricalPrices(ticker, 30, async(data) => {
             if (data) {
                 await res.json({ data });
             } else {
-                next(stockNotFoundError(req.params.id));
+                next(stockNotFoundError(req.params.stockSymbol));
             }    
         });    
 }));
 
 // ROUTE RETURNS "RECENT" STOCK PRICE (1b DAY OLD)
 router.get(
-    "/stockinfo/:id",
+    "/stockinfo/:stockSymbol",
     asyncHandler(async (req, res, next) => {
-        const ticker = req.params.id;
+        const ticker = req.params.stockSymbol;
         const company = await Company.findOne({ where: { symbol: ticker }});
 
         if(!company){
-            next(stockNotFoundError(req.params.id));
+            next(stockNotFoundError(req.params.stockSymbol));
         } else {
             await stockHistoricalPrices(ticker, 0, async (data) => {
                 if (data) {
                     await res.json({ data });
                 } else {
-                    next(stockNotFoundError(req.params.id));
+                    next(stockNotFoundError(req.params.stockSymbol));
                 };
             })
         }     
 }));        
     
+// ROUTE RETURNS FINANCIAL NEWS
+router.get(
+    "/news",
+    asyncHandler(async (req, res, next) => {
+       await getNews(async (data) => {
+            if (data) {
+                await res.json({ data });
+            } else {
+                next();
+            }
+        });
+}));
 
+// ROUTE RETURNS FINANCIAL NEWS LIST
+router.get(
+    "/newslist",
+    asyncHandler(async (req, res, next) => {
+        await getNewsList(async (data) => {
+            if (data) {
+                await res.json({ data });
+            } else {
+                next();
+            }
+        });
+}));
 
 module.exports = router;
