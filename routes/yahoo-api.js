@@ -5,7 +5,7 @@ const stockHistoricalPrices = async(ticker, days, cb ) => {
 
     const secondsInDay = (60 * 60 *24);
     const endDate = Math.floor(Date.now() / 1000) - secondsInDay;
-    const startDate = endDate - ((secondsInDay * (days + 1)));
+    const startDate = endDate - ((secondsInDay * (days)));
     let data;
     console.log(ticker, ((endDate-startDate)/secondsInDay));
 

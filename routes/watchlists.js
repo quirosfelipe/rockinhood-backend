@@ -8,13 +8,13 @@ const router = express.Router();
 
 
 router.post(
-    "/:id",
+    "/:userid",
     requireAuth,
     asyncHandler(async(req, res, next) => {
         const { company } = req.body;
         const companyId = await Company.findOne({where: { name: company }});
         if(companyId){
-            const watchlist = await Watchlist.create({ companyId: companyId.id , userId: req.params.id })
+            const watchlist = await Watchlist.create({ companyId: companyId.id , userId: req.params.userid })
             res.json({ watchlist });
         } else {
             next(stockNotFoundError(company));
@@ -22,12 +22,12 @@ router.post(
 }));
 
 router.get(
-    "/:id",
+    "/:userid",
     requireAuth,
     asyncHandler(async(req, res, next)=> {
         const watchlists = await Watchlist.findAll({
         where: {
-            userId: req.params.id,
+            userId: req.params.userid,
       },
     });
     // Need to implement an error handler here
@@ -35,14 +35,14 @@ router.get(
 }));
 
 router.delete(
-    "/:stockSymbol",
+    "/:stockId",
     requireAuth,
     asyncHandler(async(req, res, next) => {
-        const deleteCompany = req.params.stockSymbol;
+        const deleteCompany = req.params.stockId;
         const watchlist = await Watchlist.findOne({ where: { companyId: deleteCompany }});
         if (watchlist) {
             await watchlist.destroy();
-            res.json({ message: `Removed Company ${req.params.stockSymbol} from your watchlist.` });
+            res.json({ message: `Removed Company ${req.params.stockId} from your watchlist.` });
         } else {
             next(stockNotFoundError(req.params.stockSymbol));
         }

@@ -48,7 +48,7 @@ router.get(
         if(!company){
             next(stockNotFoundError(req.params.id));
         } else {
-            await stockHistoricalPrices(ticker, 1, async (data) => {
+            await stockHistoricalPrices(ticker, 0, async (data) => {
                 if (data) {
                     await res.json({ data });
                 } else {
