@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors'); 
 const { environment } = require('./config');
 const app = express();
+const origin = process.env.FRONTEND_URL;
 
 //ROUTES
 const usersRouter = require('./routes/users');
@@ -14,8 +15,9 @@ const watchlistsRouter = require('./routes/watchlists')
 //USE UTILS
 app.use(morgan("dev"));
 app.use(express.json());
-//app.use(cors({ origin: "http://localhost:4000" }));  
-app.use(cors());  
+//app.use(cors({ origin: "http://localhost:4000" }));
+
+app.use(cors( {origin} ));  
 
 
 //USE ROUTES
