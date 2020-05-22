@@ -7,6 +7,32 @@ const { stockHistoricalPrices, getNews, getNewsList } = require("./yahoo-api")
 const router = express.Router();
 
 
+// ROUTE RETURNS FINANCIAL NEWS
+router.get(
+    "/news",
+    asyncHandler(async (req, res, next) => {
+        await getNews(async (data) => {
+            if (data) {
+                await res.json({ data });
+            } else {
+                next();
+            }
+        });
+    }));
+
+// ROUTE RETURNS FINANCIAL NEWS LIST
+router.get(
+    "/newslist",
+    asyncHandler(async (req, res, next) => {
+        await getNewsList(async (data) => {
+            if (data) {
+                await res.json({ data });
+            } else {
+                next();
+            }
+        });
+    }));
+
 // ROUTE RETURN COMPANY INFO
 router.get(
     "/:stockSymbol",
@@ -57,30 +83,6 @@ router.get(
         }     
 }));        
     
-// ROUTE RETURNS FINANCIAL NEWS
-router.get(
-    "/news",
-    asyncHandler(async (req, res, next) => {
-       await getNews(async (data) => {
-            if (data) {
-                await res.json({ data });
-            } else {
-                next();
-            }
-        });
-}));
 
-// ROUTE RETURNS FINANCIAL NEWS LIST
-router.get(
-    "/newslist",
-    asyncHandler(async (req, res, next) => {
-        await getNewsList(async (data) => {
-            if (data) {
-                await res.json({ data });
-            } else {
-                next();
-            }
-        });
-}));
 
 module.exports = router;
