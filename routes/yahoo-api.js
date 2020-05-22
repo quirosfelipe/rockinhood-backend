@@ -25,7 +25,7 @@ const stockHistoricalPrices = async(ticker, days, cb ) => {
     try {
     req.end( (res) => {
         if (res.error) {
-            throw new Error(res.error);
+            const error = new Error(res.error);
         } else {
             data = res.body.prices.map((price) => ({ date: new Date(price.date * 1000), value: price.close }));
             data = data.reverse();
@@ -52,7 +52,9 @@ const getNewsList = async (cb) => {
     });
     try {
     req.end(function (res) {
-        if (res.error) throw new Error(res.error);
+        if (res.error) {
+            const error = new Error(res.error);
+        };
         cb(res.body);
     });
     } catch (error) {

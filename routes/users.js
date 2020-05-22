@@ -38,7 +38,7 @@ router.post(
         const user = await User.create({ fullName, email, cashBalance, hashedPassword });
 
         const token = getUserToken(user);
-        res.status(201).json({ token, user: { id: user.id }});
+        res.status(201).json({ token, user: { id: user.id, cashBalance: user.cashBalance }});
            
 }));
 
@@ -60,7 +60,7 @@ router.post(
         return next(err);
     }
     const token = getUserToken(user);
-        res.json({ token, user: { id: user.id }});
+        res.json({ token, user: { id: user.id, cashBalance: user.cashBalance}});
     })
 );  
 
@@ -83,7 +83,7 @@ router.post(
             return next(err);
         }
         const token = getUserToken(user);
-        res.json({ token, user: { id: user.id } });
+        res.json({ token, user: { id: user.id, cashBalance: user.cashBalance } });
     })
 );  
 
