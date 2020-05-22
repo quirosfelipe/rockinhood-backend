@@ -2,23 +2,10 @@
 const express = require('express');
 const { asyncHandler, stockNotFoundError } = require("../utils");
 const { Company } = require("../db/models");
-const { stockHistoricalPrices, getNews, getNewsList } = require("./yahoo-api")
+const { stockHistoricalPrices, getNewsList } = require("./yahoo-api")
 
 const router = express.Router();
 
-
-// ROUTE RETURNS FINANCIAL NEWS
-router.get(
-    "/news",
-    asyncHandler(async (req, res, next) => {
-        await getNews(async (data) => {
-            if (data) {
-                await res.json({ data });
-            } else {
-                next();
-            }
-        });
-    }));
 
 // ROUTE RETURNS FINANCIAL NEWS LIST
 router.get(
@@ -84,5 +71,17 @@ router.get(
 }));        
     
 
-
 module.exports = router;
+
+// // ROUTE RETURNS FINANCIAL NEWS
+// router.get(
+//     "/news",
+//     asyncHandler(async (req, res, next) => {
+//         await getNews(async (data) => {
+//             if (data) {
+//                 await res.json({ data });
+//             } else {
+//                 next();
+//             }
+//         });
+//     }));
