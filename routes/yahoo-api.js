@@ -7,7 +7,7 @@ const stockHistoricalPrices = async(ticker, days, cb ) => {
     const endDate = Math.floor(Date.now() / 1000) - secondsInDay;
     const startDate = endDate - ((secondsInDay * (days)));
     let data;
-    console.log(ticker, ((endDate-startDate)/secondsInDay));
+    //console.log(ticker, ((endDate-startDate)/secondsInDay));
 
     const req = unirest("GET", "https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-historical-data");
     req.query({
@@ -26,7 +26,9 @@ const stockHistoricalPrices = async(ticker, days, cb ) => {
         if (res.error) {
             throw new Error(res.error);
         } else {
-            data = res.body.prices.map((price) => ([new Date(price.date * 1000), price.close]));
+            data = res.body.prices.map((price) => ({ date: new Date(price.date * 1000), value: price.close }));
+            data = data.reverse();
+            //console.log(data);
             cb(data);
         }
     });

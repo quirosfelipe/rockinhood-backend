@@ -48,6 +48,7 @@ router.get(
                 userId: req.params.userId,
                 buySell: true,
             },
+            include: Company
         });
         if(!transactions){
             const err = new Error("Could not find transactions");
@@ -56,7 +57,7 @@ router.get(
             err.errors = ["Could not find any transaciots for specified user."];
             return next(err);
         } else {
-            res.status(200).json({ transaction });
+            res.status(200).json({ transactions });
         };
 }));
 

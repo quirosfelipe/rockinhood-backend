@@ -15,6 +15,8 @@ const watchlistsRouter = require('./routes/watchlists')
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:4000" }));  
+//app.use(cors());  
+
 
 //USE ROUTES
 app.use('/users', usersRouter);

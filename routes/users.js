@@ -32,12 +32,13 @@ router.post(
     validateName,
     validateEmailAndPassword,
     asyncHandler(async(req, res, next)=> {
-        const { fullName, email, cashBalance, password } = req.body;
+        const { fullName, email, password } = req.body;  //
+        const cashBalance = 1000;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({ fullName, email, cashBalance, hashedPassword });
 
         const token = getUserToken(user);
-        res.status(201).json({ token, user: { id: user.id }, cash: { cashBalance: user.cashBalance } });
+        res.status(201).json({ token, user: { id: user.id }});
            
 }));
 
@@ -50,7 +51,6 @@ router.post(
         const user = await User.findOne({
             where: { email },
         });
-        console.log(user)
 
     if (!user || !user.validatePassword(password)) {
         const err = new Error("Login failed");
@@ -60,7 +60,7 @@ router.post(
         return next(err);
     }
     const token = getUserToken(user);
-        res.json({ token, user: { id: user.id }, cash: { cashBalance: user.cashBalance } });
+        res.json({ token, user: { id: user.id }});
     })
 );  
 
@@ -74,7 +74,7 @@ router.post(
             where: { email } },
         );
 
-        console.log(user);
+        //console.log(user);
         if (!user || !user.validatePassword(password)) {
             const err = new Error("Login failed");
             err.status = 401;
@@ -83,7 +83,7 @@ router.post(
             return next(err);
         }
         const token = getUserToken(user);
-        res.json({ token, user: { id: user.id }, cash: {cashBalance: user.cashBalance }  });
+        res.json({ token, user: { id: user.id } });
     })
 );  
 

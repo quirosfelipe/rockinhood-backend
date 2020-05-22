@@ -28,8 +28,9 @@ router.get(
         const watchlists = await Watchlist.findAll({
         where: {
             userId: req.params.userid,
-      },
-    });
+        },
+        include: Company
+        });
     // Need to implement an error handler here
     res.json( { watchlists});
 }));

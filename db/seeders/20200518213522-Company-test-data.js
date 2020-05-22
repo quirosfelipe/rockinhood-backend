@@ -357,7 +357,7 @@ module.exports = {
         }
       ], { returning: true } );
 
-    return queryInterface.bulkInsert( "Users", [
+    const users = await queryInterface.bulkInsert( "Users", [
       { fullName: "guest",
         email: "guest@guest.com",
         hashedPassword: bcrypt.hashSync("guest", 10),
@@ -386,11 +386,68 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       }
+    ], { returning: true  });
+
+    const watchlists = await queryInterface.bulkInsert("Watchlists", [
+      { userId: 1,
+        companyId: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 3,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 7,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 19,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 21,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ], { returning: true });
+    
+    return queryInterface.bulkInsert("Transactions", [
+      { userId: 1,
+        companyId: 1,
+        shares: 1,
+        price: 319.20,
+        buySell: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 14,
+        shares: 10,
+        price: 5.62,
+        buySell: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      { userId: 1,
+        companyId: 5,
+        shares: 20,
+        price: 6.47,
+        buySell: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ], {});
   },
 
   down: async (queryInterface, Sequelize) => {
       await queryInterface.bulkDelete('Companies', null, {});
-      return queryInterface.bulkDelete('Users', null, {});
+      await queryInterface.bulkDelete('Users', null, {});
+      await queryInterface.bulkDelete('Watchlists', null, {});
+      return queryInterface.bulkDelete('Transactions', null, {});
   }
 };
