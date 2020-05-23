@@ -20,7 +20,7 @@ const handleValidationErrors = (req, res, next) => {
 };
 
 const stockNotFoundError = (stockSymbol) => {
-    const err = Error("Scock not found");
+    const err = Error("Stock not found");
     err.errors = [`Stock with symbol of ${stockSymbol} could not be found.`];
     err.title = "Stock not found.";
     err.status = 404;

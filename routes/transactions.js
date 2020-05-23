@@ -15,15 +15,13 @@ router.post(
     asyncHandler(async(req, res, next) => {
         const { company, shares, price } = req.body;
         const companyId = await Company.findOne({ where: { name: company } });
-        
+         
         if(!companyId) {
             next(stockNotFoundError(company));
         } else {
             const purchasePrice = price * shares;
             const userfunds = await User.findOne({where: { id: req.params.userId}});
-
-
-            
+          
             if(userfunds.cashBalance > purchasePrice) {
             const transaction = await Transaction.create({ companyId: companyId.id, 
                 userId: req.params.userId, shares: shares, price: purchasePrice, buySell: true });
@@ -63,7 +61,7 @@ router.get(
         };
 }));
 
-//TPUTE TO SELL A STOCK
+//ROUTE TO SELL A STOCK
 router.put(
     "/:stockSymbol",
     requireAuth,
@@ -88,6 +86,27 @@ router.put(
             res.status(200).json({ transaction });
         };
 
+}));
+
+//ROUTE TO SELL A STOCK
+router.post(
+    "/fund/:userId",
+    requireAuth,
+    asyncHandler(async(req, res, next) => {
+        const userfunds = await User.findOne({ where: { id: req.params.userId } });
+        const { funds } = req.body;
+
+        if (funds < 1) {
+            const err = new Error("Could not fund account");
+            err.status = 404;
+            err.title = "Incorrect Value Input";
+            err.errors = ["Funding value must be a positive value greater than $0"];
+            return next(err);
+        } else {
+            userfunds.cashBalance += funds;
+            await userfunds.save();
+            res.status(200).json({ message: "Funds updated!" });
+        };
 }));
 
 

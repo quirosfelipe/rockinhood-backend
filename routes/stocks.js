@@ -3,6 +3,7 @@ const express = require('express');
 const { asyncHandler, stockNotFoundError } = require("../utils");
 const { Company } = require("../db/models");
 const { stockHistoricalPrices, getNewsList } = require("./yahoo-api")
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -20,19 +21,35 @@ router.get(
         });
     }));
 
+//ROUTE RETURNS LIST OF ALL COMPANIES AND THEIR SYMBOLS
+router.get(
+    "/allcompanies/",
+    asyncHandler(async (req, res, next) => {
+        const companies = await Company.findAll();
+        const companyData = companies.map( (ele) => {
+            return { name: ele.name , symbol: ele.symbol }});
+
+        res.json({ companyData });
+    }));
+
+
 // ROUTE RETURN COMPANY INFO
 router.get(
-    "/:stockSymbol",
+    "/:stock",
     asyncHandler(async(req, res, next) => {
+
         const stock = await Company.findOne({
             where: {
-                symbol: req.params.stockSymbol,
+                [Op.or]: [
+                    { name: req.params.stock },
+                    { symbol: req.params.stock }
+                ]
             },
         });
         if (stock) {
             res.json({ stock });    
         } else {
-            next(stockNotFoundError(req.params.stockSymbol));
+            next(stockNotFoundError(req.params.stock));
         }    
 }));
 
