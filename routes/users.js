@@ -59,6 +59,13 @@ router.post(
         err.errors = ["The provided credentials were invalid."];
         return next(err);
     }
+    if(user.fullName = "guest") {
+        user.cashBalance = 10000;
+        await user.save();
+        console.log(`User ${user.fullName} logged in was chash balance of ${user.cashBalance}!`)
+    }
+
+        console.log(`User ${user.fullName} logged in!`)
     const token = getUserToken(user);
         res.json({ token, user: { id: user.id, cashBalance: user.cashBalance}});
     })
@@ -82,6 +89,11 @@ router.post(
             err.errors = ["The provided credentials were invalid."];
             return next(err);
         }
+        //below code makes sure new guest user has starting cash
+        user.cashBalance = 10000;
+        await user.save();
+        console.log(`User ${user.fullName} logged in was chash balance of ${user.cashBalance}`)
+
         const token = getUserToken(user);
         res.json({ token, user: { id: user.id, cashBalance: user.cashBalance } });
     })

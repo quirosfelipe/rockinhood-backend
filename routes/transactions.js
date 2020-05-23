@@ -22,6 +22,8 @@ router.post(
             const purchasePrice = price * shares;
             const userfunds = await User.findOne({where: { id: req.params.userId}});
 
+
+            
             if(userfunds.cashBalance > purchasePrice) {
             const transaction = await Transaction.create({ companyId: companyId.id, 
                 userId: req.params.userId, shares: shares, price: purchasePrice, buySell: true });
