@@ -67,35 +67,46 @@ router.put(
     "/:stockSymbol",
     requireAuth,
     asyncHandler(async(req, res, next) => {
-        const { price } = req.body;
+        const { price, shares} = req.body;
 
-        console.log(price);
+        console.log(price, shares);
+
+        if(shares <= 0) {
+            const err = new Error("Must own at least one share to sell");
+            err.status = 404;
+            err.title = "Transaction failed";
+            err.errors = ["Must own at least one share to sell stock"];
+            return next(err);
+        }
 
         const company = await Company.findOne({where: { symbol: req.params.stockSymbol }});
         const transaction = await Transaction.findOne({ where: { companyId: company.id}});
         const user = await User.findOne({where:{ id: transaction.userId }});
         const salePrice = transaction.shares * price;
-        
-        console.log(salePrice);
 
+        if(shares > transaction.shares) {
+            const err = new Error("Too many shares entered");
+            err.status = 404;
+            err.title = "Transaction failed";
+            err.errors = ["Can not sell more shares than you own!"];
+            return next(err);
+        };
         if (!transaction) {
             const err = new Error("Could not find transactions");
             err.status = 404;
             err.title = "Transactions not found";
             err.errors = ["Could not find any transaciots for specified user."];
             return next(err);
-        } else {
-            transaction.buySell = false;
-            transaction.price = price;
-            await transaction.save();
-            user.cashBalance += salePrice;
-            await user.save();
-            res.status(200).json({ transaction });
-        };
-
+        }; 
+        transaction.buySell = false;
+        transaction.price = price;
+        await transaction.save();
+        user.cashBalance += salePrice;
+        await user.save();
+        res.status(200).json({ transaction });
 }));
 
-//ROUTE TO SELL A STOCK
+//ROUTE TO ADD USER CASH
 router.post(
     "/fund/:userId",
     requireAuth,
