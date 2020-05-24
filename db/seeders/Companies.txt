@@ -1,39 +1,13 @@
-Amazon	AMZN	
-Anheuser Busch InBev BUD	
-Apple	AAPL	
-Berkshire Hathaway	BRK.B	
-Boeing	BA	
-British Petroleum	BP	
-Costco	COST	
-Disney	DIS	
-Exxon Mobil	
-Facebook	FB	
-Ford	F	
-General Electric	GE	
-Home Depot	HD
-IBM	IBM	
-Intel	INTC	
-JPMorgan Chase	
-Johnson & Johnson JNJ	
-Kraft Foods	KHC	
-Lockheed	LMT	
-Merck	MRK	
-Microsoft	MSFT	
-NVIDIA	NVDA	
-Netflix	NFLX	
-Oracle	ORCL	
-PepsiCo	PEP	
-Pfizer	PFE	
-Qualcomm	QCOM
-Royal Caribbean	RCL	
-Slack	WORK
-Spotify	SPOT	
-Starbucks	SBUX	
-Tesla	TSLA	
-Twitter	TWTR	
-Uber	UBER	
-Verizon	VZ
-Walmart	WMT	
-Xilinx	XLNX
-YETI	YETI	
-Zoom	ZM	
+const companyNames = ["amazon", "anheuser busch inbev", "apple", "berkshire hathaway", "boeing", 
+    "british petroleum", "costco", "disney", "exxon mobil", "facebook", "ford", "general electric",
+    "home depot", "ibm", "intel", "jpmorgan", "johnson & johnson", "kraft foods", "lockheed",
+    "merck", "microsoft", "nvidia", "netflix", "oracle", "pepsico", "pfizer", "qualcomm", "royal caribbean",
+    "slack", "spotify", "starbucks", "tesla", "twitter", "uber", "verizon", "walmart", "xilinx",
+    "yeti", "zoom"]
+
+const companySymbols = ["amzn", "bud", "aapl", "brk.b", "ba", "bp", "cost", "dis", "xom", "fb", "f", "ge",
+    "hd", "ibm", "intc", "jpm", "jnj", "khc", "lmt", "mrk", "msft", "nvda", "nflx", "orcl","pep", "pfe", "qcom",
+    "rcl", "work", "spot", "sbux", "tsla", "twtr", "uber", "vz", "wmt", "xlnx", "yeti", "zm"]
+	
+	
+

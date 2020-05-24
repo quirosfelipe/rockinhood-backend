@@ -25,9 +25,10 @@ router.post(
             if(userfunds.cashBalance > purchasePrice) {
             const transaction = await Transaction.create({ companyId: companyId.id, 
                 userId: req.params.userId, shares: shares, price: purchasePrice, buySell: true });
+                // UPDATE CASHBALANCE FOR PURCHASE BELOW
                 userfunds.cashBalance -= purchasePrice;
                 await userfunds.save();
-                res.status(201).json({ message: `${shares} shares of ${companyId.name} stock was purchased for $${purchasePrice}!`});
+                res.status(201).json( {userfunds: { id: userfunds.id, cashBalance: userfunds.cashBalance }});
             } else {
                 const err = new Error("Transaction failed");
                 err.status = 400;
@@ -67,12 +68,17 @@ router.put(
     requireAuth,
     asyncHandler(async(req, res, next) => {
         const { price } = req.body;
+
+        console.log(price);
+
         const company = await Company.findOne({where: { symbol: req.params.stockSymbol }});
         const transaction = await Transaction.findOne({ where: { companyId: company.id}});
-        const user = transaction.userId;
+        const user = await User.findOne({where:{ id: transaction.userId }});
         const salePrice = transaction.shares * price;
         
-        if (!transactions) {
+        console.log(salePrice);
+
+        if (!transaction) {
             const err = new Error("Could not find transactions");
             err.status = 404;
             err.title = "Transactions not found";
@@ -80,6 +86,7 @@ router.put(
             return next(err);
         } else {
             transaction.buySell = false;
+            transaction.price = price;
             await transaction.save();
             user.cashBalance += salePrice;
             await user.save();

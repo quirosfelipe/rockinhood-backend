@@ -18,7 +18,7 @@ app.use(express.json());
 //app.use(cors({ origin: "http://localhost:4000" }));
 app.use(cors());
 // app.use(cors( {origin} ));
-
+ 
 //USE ROUTES
 app.use("/users", usersRouter);
 app.use("/stocks", stocksRouter);
